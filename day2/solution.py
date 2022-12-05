@@ -9,6 +9,12 @@ select_score = {
     "Z": 3
 }
 
+outcome_scoring = {
+    'Z': 6,
+    'Y': 3,
+    'X': 0
+} 
+
 rules = {
     ('A', 'X') : 3,
     ('A', 'Y') : 6,
@@ -37,22 +43,38 @@ for round in input_data.splitlines():
 print("Answer1: {}".format(sum(outcomes)))
 
 
+# A Rock
+# B Paper
+# C Scissors
+
+
+# X lose
+# Y draw
+# Z win
+
+# X Rock
+# Y Paper
+# Z Scissors
 rules_part2 = {
     ('A', 'X') : 'Z',
     ('A', 'Y') : 'X',
     ('A', 'Z') : 'Y',
-    ('B', 'X') : 'Z',
+    ('B', 'X') : 'X',
     ('B', 'Y') : 'Y',
-    ('B', 'Z') : 'X',
+    ('B', 'Z') : 'Z',
     ('C', 'X') : 'Y',
     ('C', 'Y') : 'Z',
     ('C', 'Z') : 'X'
 }
 
-outcome_scores = []
+round_scores = []
 
 for round in input_data.splitlines():
     round_split = round.split(" ")
     opponent_pick = round_split[0]
     outcome = round_split[1]
-    print(rules_part2[(opponent_pick, outcome)])
+    outcome_points = outcome_scoring[outcome]
+    select_points = select_score[rules_part2[(opponent_pick, outcome)]]
+    round_scores.append(outcome_points + select_points)
+
+print("Answer2: {}".format(sum(round_scores)))
