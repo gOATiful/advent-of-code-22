@@ -2,8 +2,11 @@ elves_inventory = ""
 current_elf = 0
 elves = []
 
-with open("day1/input.txt", "r") as input_file:
-    elves_inventory = input_file.read()
+def load_input(input_file_path = "day1/input.txt"):
+  with open(input_file_path, "r") as input_file:
+    return input_file.read()
+
+elves_inventory = load_input()
 
 for item in elves_inventory.splitlines():
     if len(elves) <= current_elf:

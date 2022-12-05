@@ -2,6 +2,10 @@ input_data = """A Y
 B X
 C Z"""
 
+def load_input(input_file_path = "day2/input.txt"):
+  with open(input_file_path, "r") as input_file:
+    return input_file.read()
+
 
 select_score = {
     'X': 1,
@@ -27,9 +31,7 @@ rules = {
     ('C', 'Z') : 3
 }
 
-
-with open("day2/input.txt", "r") as input_file:
-    input_data = input_file.read()
+input_data = load_input()
 
 outcomes = []
 for round in input_data.splitlines():
