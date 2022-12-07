@@ -92,21 +92,24 @@ def load_input(input_file_path = "day7/input.txt"):
   with open(input_file_path, "r") as input_file:
     return input_file.read()
 
-def find_dirs_of_at_most(tree, size):
+def find_dirs_with_predicate(tree, predicate):
   filter_list = []
   if type(tree) is Directory:
     dir_size = tree.get_size()
-    if dir_size < size:
+    if predicate(dir_size):
       filter_list.append(tree)
     for subtree in tree.subtree:
-      filter_list.extend(find_dirs_of_at_most(subtree, size))
+      filter_list.extend(find_dirs_with_predicate(subtree, predicate))
   return filter_list
-  
+      
+def at_max_const(item_size):
+  return item_size < 100000
+
 input_data = load_input()
 
 file_tree = create_file_tree(input_data)
 
-find_dirs_with_size = find_dirs_of_at_most(file_tree, 100000)
+find_dirs_with_size = find_dirs_with_predicate(file_tree, at_max_const)
 
 print(sum(x.get_size() for x in find_dirs_with_size))
 
@@ -118,17 +121,10 @@ space_used = file_tree.get_size()
 space_free = total_space_on_device - space_used
 space_to_free = required_update_size - space_free
 
-def find_dirs_of_at_least(tree, size):
-  filter_list = []
-  if type(tree) is Directory:
-    dir_size = tree.get_size()
-    if dir_size > size:
-      filter_list.append(tree)
-    for subtree in tree.subtree:
-      filter_list.extend(find_dirs_of_at_least(subtree, size))
-  return filter_list
-      
-candidates = find_dirs_of_at_least(file_tree, space_to_free)
+def at_least_const(item_size):
+  return item_size > space_to_free
+
+candidates = find_dirs_with_predicate(file_tree, at_least_const)
 # find smallest
 result2 = min(candidates, key=lambda x: x.get_size())
 print(result2.get_size())
