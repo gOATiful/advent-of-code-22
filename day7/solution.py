@@ -92,14 +92,14 @@ def load_input(input_file_path = "day7/input.txt"):
   with open(input_file_path, "r") as input_file:
     return input_file.read()
 
-def find_dirs_with_predicate(tree, predicate):
+def find_dirs_by_predicate(tree, predicate):
   filter_list = []
   if type(tree) is Directory:
     dir_size = tree.get_size()
     if predicate(dir_size):
       filter_list.append(tree)
     for subtree in tree.subtree:
-      filter_list.extend(find_dirs_with_predicate(subtree, predicate))
+      filter_list.extend(find_dirs_by_predicate(subtree, predicate))
   return filter_list
       
 def at_max_const(item_size):
@@ -110,7 +110,7 @@ def at_max_const(item_size):
 file_tree = create_file_tree(input_data)
 print(file_tree.ls())
 
-find_dirs_with_size = find_dirs_with_predicate(file_tree, at_max_const)
+find_dirs_with_size = find_dirs_by_predicate(file_tree, at_max_const)
 
 print(sum(x.get_size() for x in find_dirs_with_size))
 
@@ -125,7 +125,7 @@ space_to_free = required_update_size - space_free
 def at_least_const(item_size):
   return item_size > space_to_free
 
-candidates = find_dirs_with_predicate(file_tree, at_least_const)
+candidates = find_dirs_by_predicate(file_tree, at_least_const)
 # find smallest
 result2 = min(candidates, key=lambda x: x.get_size())
 print(result2.get_size())
