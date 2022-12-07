@@ -1,26 +1,32 @@
-input_data = """zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw"""
+input_data = """    [D]    
+[N] [C]    
+[Z] [M] [P]
+ 1   2   3 
+
+move 1 from 2 to 1
+move 3 from 1 to 3
+move 2 from 2 to 1
+move 1 from 1 to 2"""
+
+chars_per_container = 4
 
 def load_input(input_file_path = "day5/input.txt"):
   with open(input_file_path, "r") as input_file:
     return input_file.read()
 
-input_data = load_input()
+def parse_stack(input: str):
+    lines = input.splitlines()
+    stack_cnt = (len(lines[-1]) +1) / chars_per_container
 
-def find_startcode(input_data, window_size):
-    for i in range(0, len(input_data)-window_size):
-        window = input_data[i:i+window_size]
-        window_set = set(window)
-        if len(window_set) == window_size:
-            return i+window_size
-    return -1
+    for line in input.splitlines()[:-1]:
+        for i in range(stack_cnt):
+            container = line[chars_per_container * i + 1]
+        print(line)
 
-# Part 1
-window_size_part1 = 4
-part1_solution = find_startcode(input_data, window_size_part1)
-print("Answer1: {}".format(part1_solution))
+# input_data = load_input()
+input_split = input_data.split("\n\n")
 
+stack = parse_stack(input_split[0])
+instructions = input_split[1]
 
-# Part 2
-window_size_part2 = 14
-part2_solution = find_startcode(input_data, window_size_part2)
-print("Answer2: {}".format(part2_solution))
+print(stack)
