@@ -53,10 +53,10 @@ class Directory():
       print_str = "- {} (dir)\n".format(self.name)
       for branch in self.subtree:
         if type(branch) is Directory:
-          print_str += "  " + branch.ls().replace("\n", "\n  ")
+          print_str += "  " + branch.ls().replace("\n", "\n  ") + "\n"
         else:
           print_str += "  - {} (file, size={})\n".format(branch.name, branch.size)
-      return print_str
+      return print_str[:-2]
 
 class File():
   def __init__(self, name, size):
@@ -105,9 +105,10 @@ def find_dirs_with_predicate(tree, predicate):
 def at_max_const(item_size):
   return item_size < 100000
 
-input_data = load_input()
+# input_data = load_input()
 
 file_tree = create_file_tree(input_data)
+print(file_tree.ls())
 
 find_dirs_with_size = find_dirs_with_predicate(file_tree, at_max_const)
 
