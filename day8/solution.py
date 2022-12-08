@@ -1,4 +1,3 @@
-import copy
 input_data = """30373
 25512
 65332
